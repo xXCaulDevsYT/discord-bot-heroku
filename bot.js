@@ -6,8 +6,8 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
-    if (message.content === 'ping') {
-    	message.reply('pong');
+    if (message.content === '+help') {
+    	message.reply('iGalactic `BOT` Was Made / Developed By `xXCaulDevsYT#7314` There Are Currently **__1__** Commands: `+help (shows a list of commands`');
   	}
 });
 
