@@ -7,7 +7,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
     if (message.content === '+bothelp') {
-    	message.reply(' Commands: `+help (shows a list of commands`,`+attack`,`+imhungry` , `+donate (donate to the bot)` ,`+adpeprefix`, `+botinfo (show info about the bot)`, `+botyoutube (shows yt)`!');
+    	message.reply(' Commands: `+help`,`+ip`,`+powerup`,`+adpeowners`,`+attack`,`+imhungry` , `+donate` ,`+adpeprefix`, `+botinfo`, `+botyoutube `!');
   	}
 });
 
@@ -44,6 +44,24 @@ client.on('message', message => {
 client.on('message', message => {
     if (message.content === '+attack') {
     	message.reply('**» You Have Been Attacked**');
+  	}
+});
+
+client.on('message', message => {
+    if (message.content === '+adpeowners') {
+    	message.reply('**Owners:** » xXCaulDevsYT , Mr.pooof «');
+  	}
+});
+
+client.on('message', message => {
+    if (message.content === '+ip') {
+    	message.reply('**Server Ips:** » Network Is UnReleased \ Under Construction «');
+  	}
+});
+
+client.on('message', message => {
+    if (message.content === '+powerup') {
+    	message.reply('**|REP|** » + `100` Rep! «');
   	}
 });
 
