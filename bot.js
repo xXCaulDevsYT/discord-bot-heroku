@@ -7,7 +7,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
     if (message.content === '+bothelp') {
-    	message.reply(' Commands: `+help (shows a list of commands` , `+donate (donate to the bot)` , `+botinfo (show info about the bot)`, `+botyoutube (shows yt)`!');
+    	message.reply(' Commands: `+help (shows a list of commands`,`+attack`,`+imhungry` , `+donate (donate to the bot)` ,`+adpeprefix`, `+botinfo (show info about the bot)`, `+botyoutube (shows yt)`!');
   	}
 });
 
@@ -26,6 +26,24 @@ client.on('message', message => {
 client.on('message', message => {
     if (message.content === '+botyoutube') {
     	message.reply('**YOUTUBE:** » https://youtube.com/emeraldassasinplayz «');
+  	}
+});
+
+client.on('message', message => {
+    if (message.content === '+adpeprefix') {
+    	message.reply('**Prefix:** » **+** «');
+  	}
+});
+
+client.on('message', message => {
+    if (message.content === '+imhungry') {
+    	message.reply(' +100 Cookies «');
+  	}
+});
+
+client.on('message', message => {
+    if (message.content === '+attack') {
+    	message.reply('**» You Have Been Attacked**');
   	}
 });
 
