@@ -7,7 +7,7 @@ client.on('ready', () => {
 
 client.on('message', message => {
     if (message.content === '+bothelp') {
-    	message.reply(' Commands: `+help`,`+ip`,`+powerup`,`+adpeowners`,`+attack`,`+imhungry` , `+donate` ,`+adpeprefix`, `+botinfo`, `+botyoutube `!');
+    	message.reply(' Commands: `+HP`,`+fbiraid`,`+builder`,`+help`,`+ip`,`+powerup`,`+adpeowners`,`+attack`,`+imhungry` , `+donate` ,`+adpeprefix`, `+botinfo`, `+botyoutube `!');
   	}
 });
 
@@ -65,5 +65,23 @@ client.on('message', message => {
   	}
 });
 
+client.on('message', message => {
+    if (message.content === '+builder') {
+    	message.reply('**Build Information** »*Make A Map Dm xXCaulDevsYT#7314 And If Its A Good Map Thats Usefull For the Network you will become a builder must provide proof you built it*«');
+  	}
+});
+
+client.on('message', message => {
+    if (message.content === '+fbiraid') {
+    	message.reply('**|GANG|** » @everyone @everyone FBI IS HERE Sh*t get Down! «');
+  	}
+});
+
+client.on('message', message => {
+    if (message.content === '+HP') {
+    	message.reply('Youre HP: 0%');
+  	}
+});
+        
 // THIS  MUST  BE  THIS  WAY
 client.login(process.env.BOT_TOKEN);
