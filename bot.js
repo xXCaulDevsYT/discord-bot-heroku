@@ -1,87 +1,120 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
-
-client.on('ready', () => {
-    console.log('I am ready!');
+const Discord = require("discord.js");
+const bot = new Discord.Client();
+ 
+const config = require("./config.json");
+ 
+bot.on("ready", () => {
+  console.log("I am ready!");
 });
-
-client.on('message', message => {
-    if (message.content === '+bothelp') {
-    	message.reply(' Commands: `+HP`,`+fbiraid`,`+builder`,`+help`,`+ip`,`+powerup`,`+adpeowners`,`+attack`,`+imhungry` , `+donate` ,`+adpeprefix`, `+botinfo`, `+botyoutube `!');
-  	}
+ 
+bot.on("guildMemberAdd", member => {
+  let guild = member.guild;
+  guild.defaultChannel.sendMessage(`Welcome ${member.user} to this server.`).catch(console.error);
 });
-
-client.on('message', message => {
-    if (message.content === '+botinfo') {
-    	message.reply('**__iGalactic Bot__** » **Developed By** `@xXCaulDevsYT#7314` «');
-  	}
+ 
+bot.on("guildMemberRemove", member => {
+  let guild = member.guild;
+  guild.defaultChannel.sendMessage(`${member.user} left this server.`).catch(console.error);
 });
-
-client.on('message', message => {
-    if (message.content === '+donate') {
-    	message.reply('**__Donate Here__** » https://paypal.me/caulden | Donations Help Keep The Bot Up! «');
-  	}
+ 
+bot.on("guildCreate", guild => {
+  console.log(`New guild added : ${guild.name}, owned by ${guild.owner.user.username}`);
 });
-
-client.on('message', message => {
-    if (message.content === '+botyoutube') {
-    	message.reply('**YOUTUBE:** » https://youtube.com/emeraldassasinplayz «');
-  	}
+ 
+bot.on("presenceUpdate", (oldMember, newMember) => {
+  let guild = newMember.guild;
+  let playRole = guild.roles.find("name", "Playing Overwatch");
+  if(!playRole) return;
+ 
+  if(newMember.user.presence.game && newMember.user.presence.game.name === "Overwatch") {
+    newMember.addRole(playRole).catch(console.error);
+  } else if(!newMember.user.presence.game && newMember.roles.has(playRole.id)) {
+    newMember.removeRole(playRole).catch(console.error);
+  }
 });
+ 
+bot.on("message", message => {
+  if (message.author.bot) return;
+  if (!message.content.startsWith(config.prefix)) return;
+ 
+  let command = message.content.split(" ")[0];
+  command = command.slice(config.prefix.length);
+ 
+  let args = message.content.split(" ").slice(1);
+ 
+  if (command === "add") {
+    let numArray = args.map(n=> parseInt(n));
+    let total = numArray.reduce( (p, c) => p+c);
+ 
+    message.channel.sendMessage(total).catch(console.error);
+  }
+ 
+  if (command === "say") {
+    message.channel.sendMessage(args.join(" ")).catch(console.error);
+  }
+  
+  if (command === "help") {
+      message.channel.sendMessage("List of commands: add , say , help , ping , foo , kick , eval.")
+  }
+ 
+  if (command === "ping") {
+    message.channel.sendMessage("Pong!").catch(console.error);
+  } else
+ 
+  if (command === "foo") {
+    let modRole = message.guild.roles.find("name", "Mods");
+    if(message.member.roles.has(modRole.id)) {
+      message.channel.sendMessage("bar!").catch(console.error);
+    } else {
+      message.reply("You pleb, you don't have the permission to use this command.").catch(console.error);
+    }
+  }
+ 
+  if (command === "kick") {
+    let modRole = message.guild.roles.find("name", "Mods");
+    if(!message.member.roles.has(modRole.id)) {
+      return message.reply("You pleb, you don't have the permission to use this command.").catch(console.error);
+    }
+    if(message.mentions.users.size === 0) {
+      return message.reply("Please mention a user to kick").catch(console.error);
+    }
+    let kickMember = message.guild.member(message.mentions.users.first());
+    if(!kickMember) {
+      return message.reply("That user does not seem valid");
+    }
+    if(!message.guild.member(bot.user).hasPermission("KICK_MEMBERS")) {
+      return message.reply("I don't have the permissions (KICK_MEMBER) to do this.").catch(console.error);
+    }
+    kickMember.kick().then(member => {
+      message.reply(`${member.user.username} was succesfully kicked.`).catch(console.error);
+    }).catch(console.error)
+  }
+ 
+  if (command === "eval") {
+    if(message.author.id !== "218433593741934592") return;
+    try {
+      var code = args.join(" ");
+      var evaled = eval(code);
+ 
+      if (typeof evaled !== "string")
+        evaled = require("util").inspect(evaled);
+ 
+      message.channel.sendCode("xl", clean(evaled));
+    } catch(err) {
+      message.channel.sendMessage(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
+    }
+  }
+ 
+}); // END MESSAGE HANDLER
+ 
+function clean(text) {
+  if (typeof(text) === "string")
+    return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+  else
+      return text;
+}
+ 
+bot.login(config.token);
 
-client.on('message', message => {
-    if (message.content === '+adpeprefix') {
-    	message.reply('**Prefix:** » **+** «');
-  	}
-});
-
-client.on('message', message => {
-    if (message.content === '+imhungry') {
-    	message.reply(' +100 Cookies «');
-  	}
-});
-
-client.on('message', message => {
-    if (message.content === '+attack') {
-    	message.reply('**» You Have Been Attacked**');
-  	}
-});
-
-client.on('message', message => {
-    if (message.content === '+adpeowners') {
-    	message.reply('**Owners:** » xXCaulDevsYT , Mr.pooof «');
-  	}
-});
-
-client.on('message', message => {
-    if (message.content === '+ip') {
-    	message.reply('**Server Ips:** » Network Is UnReleased \ Under Construction «');
-  	}
-});
-
-client.on('message', message => {
-    if (message.content === '+powerup') {
-    	message.reply('**|REP|** » + `100` Rep! «');
-  	}
-});
-
-client.on('message', message => {
-    if (message.content === '+builder') {
-    	message.reply('**Build Information** »*Make A Map Dm xXCaulDevsYT#7314 And If Its A Good Map Thats Usefull For the Network you will become a builder must provide proof you built it*«');
-  	}
-});
-
-client.on('message', message => {
-    if (message.content === '+fbiraid') {
-    	message.reply('**|GANG|** » @everyone @everyone FBI IS HERE Sh*t get Down! «');
-  	}
-});
-
-client.on('message', message => {
-    if (message.content === '+HP') {
-    	message.reply('Youre HP: 0%');
-  	}
-});
-        
 // THIS  MUST  BE  THIS  WAY
 client.login(process.env.BOT_TOKEN);
